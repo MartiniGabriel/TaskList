@@ -13,7 +13,8 @@ const app = express();
 var port = process.env.PORT || 8080;
 
 //Create connection
-const conn = mysql.createConnection({
+const conn = mysql.createPool({
+  connectionLimit: 10,
     host: "remotemysql.com",
     port: "3306",
     user: "o3zfjbLpmQ",
@@ -22,12 +23,11 @@ const conn = mysql.createConnection({
 });
  
 //connect to database
-conn.connect((err) =>{
-  if(err) throw err;
-  console.log('Mysql Connected...');
-});
+//conn.connect((err) =>{
+////  if(err) throw err;
+//  console.log('Mysql Connected...');
+//});
 
- 
 //set views file
 app.set('views',path.join(__dirname,'views'));
 //set view engine
@@ -39,6 +39,7 @@ app.use('/assets',express.static(__dirname + '/public'));
  
 //route for homepage
 app.get('/',(req, res) => {
+
   let sql = "SELECT * FROM task";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
@@ -79,6 +80,8 @@ app.post('/delete',(req, res) => {
       res.redirect('/');
   });
 });
+
+
  
 //server listening
 app.listen(port, () => {
