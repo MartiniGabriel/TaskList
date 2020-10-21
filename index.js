@@ -22,11 +22,6 @@ const conn = mysql.createPool({
     database: "o3zfjbLpmQ"
 });
  
-//connect to database
-//conn.connect((err) =>{
-////  if(err) throw err;
-//  console.log('Mysql Connected...');
-//});
 
 //set views file
 app.set('views',path.join(__dirname,'views'));
@@ -40,7 +35,7 @@ app.use('/assets',express.static(__dirname + '/public'));
 //route for homepage
 app.get('/',(req, res) => {
 
-  let sql = "SELECT * FROM task";
+  let sql = "SELECT * FROM task order by tag_id asc";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     conn.destroy;
@@ -50,9 +45,11 @@ app.get('/',(req, res) => {
   });
 });
  
+
 //route for insert data
 app.post('/save',(req, res) => {
-  let data = {task: req.body.task, tag: req.body.tag};
+  
+  let data = {task: req.body.task, tag: getRadioChecked(req), tag_id: getIdRadioChecked(req)};
   let sql = "INSERT INTO task SET ?";
   let query = conn.query(sql, data,(err, results) => {
     if(err) throw err;
@@ -60,6 +57,25 @@ app.post('/save',(req, res) => {
     res.redirect('/');
   });
 });
+
+function getRadioChecked(req){
+  console.log(req.body.priorityLow);
+  if(req.body.priorityHigh=="Danger")
+    return "Danger";
+  if(req.body.priorityMedium=="Warning")
+    return "Warning";
+  if(req.body.priorityLow=="Success")
+    return "Success";
+};
+
+function getIdRadioChecked(req){
+  if(req.body.priorityHigh=="Danger")
+    return "1";
+  if(req.body.priorityMedium=="Warning")
+    return "2";
+  if(req.body.priorityLow=="Success")
+    return "3";
+};
  
 //route for update data
 app.post('/update',(req, res) => {
