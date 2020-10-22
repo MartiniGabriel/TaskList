@@ -1,9 +1,9 @@
 # TaskList
-Repositório criado para estudos de Node-Js, uma das tecnologias mais utilizadas para desenvolvimento Web atualmente.
-Aplicação simples de lista de tarefas.
+Repository created for studies of Node-Js, one of the most used technologies for Web development today.
+Simple task list application.
 
-Utilizado framework express e HBS template engine, por fornecer larga documentação e atender às necessidades simples do projeto.
+Express framework and HBS template engine were used, for providing extensive documentation and meeting the simple needs of the project.
 
-Para o front-end, bootstrap foi aplicadoem um layout simples e funcional, pelos conhecimentos prévios do framework.
+For the front-end, bootstrap was applied in a simple and functional layout, due to previous knowledge of the framework.
 
-Como objetivos gerais, fazer um CRUD simples em um aplicativo funcional que eu possa utilizar no dia a dia foi cumprido.
+As a general objective, making a simple CRUD in a functional application that I can use on a daily basis has been accomplished.
