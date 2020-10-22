@@ -9,6 +9,8 @@ const bodyParser = require('body-parser');
 //use mysql database
 const mysql = require('mysql');
 const app = express();
+var publicDir = require('path').join(__dirname,'/public'); 
+app.use(express.static(publicDir)); 
 
 var port = process.env.PORT || 8080;
 
@@ -59,7 +61,6 @@ app.post('/save',(req, res) => {
 });
 
 function getRadioChecked(req){
-  console.log(req.body.priorityLow);
   if(req.body.priorityHigh=="Danger")
     return "Danger";
   if(req.body.priorityMedium=="Warning")
@@ -80,6 +81,16 @@ function getIdRadioChecked(req){
 //route for update data
 app.post('/update',(req, res) => {
   let sql = "UPDATE task SET task='"+req.body.task+"', tag='"+req.body.tag+"' WHERE id="+req.body.id;
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    conn.destroy;
+    res.redirect('/');
+  });
+});
+
+//route for update data
+app.post('/done',(req, res) => {
+  let sql = "UPDATE task SET status='c' WHERE id="+req.body.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     conn.destroy;
